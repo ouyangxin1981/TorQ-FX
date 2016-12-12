@@ -1,9 +1,9 @@
 files:`:files
 allcpairs:`AUDCAD`AUDCHF`AUDJPY
+runtime:17:09:30
 
 lg:{-1(string .z.p)," ",x}
 $[.z.K<3.4;{-2 "Error: Need version 3.4 or later";exit 1}[];.z.k>2016.05.12;;{-2 "Error: Need release date 2016.05.12 or later";exit 1}[]]
-
 
 download:{[startdate;enddate;currencypairs]
         lg"Generating URLS...";
@@ -23,13 +23,14 @@ download:{[startdate;enddate;currencypairs]
         lg"Downloading files...";
   // Check if files table exists; if not, create      
 	if[0=count key files;files set ([]names:();urls:();size:();downloadtime:())];
+	scount:count get files;
   // Download any available files not already downloaded in the date range      
 	{if[not x in (get files)[`names];
-                lg("Downloading ",1_ string x);x 1:.Q.hg y;$[2000<hcount x;files upsert (x;y;hcount x;.z.P);hdel x]]}'[names;hsym `$urls];
+                lg("Downloading ",1_ string x);x 1:.Q.hg y;$[2000<hcount x;files upsert (x;y;hcount x;.z.p);hdel x]]}'[names;hsym `$urls];
+	ecount:count get files;
         lg"Done";
+	if[ecount>scount;newfiles::(neg ecount-scount)#(get files)[`names]];
         }
 
-/
-.z.ts:{download[.z.d;.z.d;`ALL]}
-\t 60000
-\
+
+.timer.rep[.proc.cd[]+runtime;0W;1D;(`download;2016.11.28;2016.12.05;`ALL);0h;"Download function";0b]
