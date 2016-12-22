@@ -1,4 +1,4 @@
-f [ $# -gt 0 ]; then
+if [ $# -gt 0 ]; then
 
 for i in "$@"; do
 
