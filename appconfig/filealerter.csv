@@ -1,0 +1,3 @@
+path,match,function,newonly,movetodirectory
+$TORQHOME,*.zip,unzipFile,0,
+$TORQHOME/fxdata,*.csv,loadfxdata,0,

@@ -45,6 +45,15 @@ if [ "$i" = "housekeeping" ] || [ "$i" = "housekeeping1" ] || [ "$i" = "all" ]; 
                 nohup q ${TORQHOME}/torq.q -load ${KDBCODE}/processes/housekeeping.q ${KDBSTACKID} -proctype housekeeping -procname housekeeping1 -loaddir ${KDBAPPCODE}/common -U appconfig/passwords/accesslist.txt -localtime -g 1 -w 50000 </dev/null >$KDBLOG/torqhousekeeping.txt 2>&1 &
         fi
 fi
+
+if [ "$i" = "filealerter" ] || [ "$i" = "filealerter1" ] || [ "$i" = "all" ]; then
+        PID=$(pgrep -f "\ $KDBSTACKID \-proctype filealerter \-procname filealerter1")
+        if [ -z "$PID" ]; then
+                echo 'Starting filealerter proc...'
+                nohup q $TORQHOME/torq.q -load ${KDBCODE}/processes/filealerter.q ${KDBSTACKID} -proctype filealerter -procname filealerter1 -loaddir ${KDBAPPCODE}/common -U appconfig/passwords/accesslist.txt -localtime </dev/null >$KDBLOG/torqfilealerter.txt 2>&1 &
+        fi
+fi
+
 done
 else
         echo "Script must be passed name of process"

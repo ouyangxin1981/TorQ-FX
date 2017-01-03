@@ -69,6 +69,13 @@ if [ "$i" = "housekeeping" ] || [ "$i" = "housekeeping1" ] || [ "$i" = "all" ]; 
         killWait $PID
 fi
 
+if [ "$i" = "filealerter" ] || [ "$i" = "filealerter1" ] || [ "$i" = "all" ]; then
+        echo 'Shutting down filealerter1...'
+        PID=$(pgrep -f "\ $KDBSTACKID \-proctype filealerter \-procname filealerter1")
+        killWait $PID
+fi
+
+
 done
 
 else
