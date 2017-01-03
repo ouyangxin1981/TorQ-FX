@@ -1,3 +1,6 @@
+. ./setenv.sh
+export KDBHDB=${TORQHOME}/fxhdb
+
 if [ $# -gt 0 ]; then
 
 for i in "$@"; do
