@@ -6,3 +6,4 @@ localhost,{KDBBASEPORT}+4,hdb,hdb3
 localhost,{KDBBASEPORT}+5,gateway,gateway1
 localhost,{KDBBASEPORT}+6,housekeeping,housekeeping1
 localhost,{KDBBASEPORT}+7,filealerter,filealerter1
+localhost,{KDBBASEPORT}+8,downloader,downloader1
