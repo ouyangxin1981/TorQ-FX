@@ -66,4 +66,4 @@ download:{[startdate;enddate;currencypairs]
 if[1b=initialrun;download[initialrunstart;.z.d;`ALL]]
 
 // Run the download function with the current date at a specified time each day
-.timer.rep[.proc.cd[]+runtime;0W;1D;(`download;.proc.cd[];.proc.cd[];`ALL);0h;"Download function";0b]
+.timer.rep[.proc.cd[]+runtime;0W;1D;(`download;.proc.cd[]-7;.proc.cd[];`ALL);0h;"Download function";0b]
