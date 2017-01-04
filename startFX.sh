@@ -58,6 +58,14 @@ if [ "$i" = "filealerter" ] || [ "$i" = "filealerter1" ] || [ "$i" = "all" ]; th
         fi
 fi
 
+if [ "$i" = "downloader" ] || [ "$i" = "downloader1" ] || [ "$i" = "all" ]; then
+        PID=$(pgrep -f "\ $KDBSTACKID \-proctype downloader \-procname downloader1")
+        if [ -z "$PID" ]; then
+                echo 'Starting downloader proc...'
+                nohup q $TORQHOME/torq.q -load ${KDBCODE}/processes/downloader.q ${KDBSTACKID} -proctype downloader -procname downloader1 -loaddir ${KDBAPPCODE}/common -U appconfig/passwords/accesslist.txt -localtime </dev/null >$KDBLOG/torqdownloader.txt 2>&1 &
+        fi
+fi
+
 done
 else
         echo "Script must be passed name of process"

@@ -75,6 +75,11 @@ if [ "$i" = "filealerter" ] || [ "$i" = "filealerter1" ] || [ "$i" = "all" ]; th
         killWait $PID
 fi
 
+if [ "$i" = "downloader" ] || [ "$i" = "downloader1" ] || [ "$i" = "all" ]; then
+        echo 'Shutting down downloader1...'
+        PID=$(pgrep -f "\ $KDBSTACKID \-proctype downloader \-procname downloader1")
+        killWait $PID
+fi
 
 done
 

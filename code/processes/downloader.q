@@ -38,7 +38,7 @@ download:{[startdate;enddate;currencypairs]
                 raze (string y;first string 1+(`dd$x) div 7;".zip"))}'[;cpairs]each dates;
 	ndates:asc (count urls)#dates;
   // Generate the names each file will be saved as      
-	names:hsym `$({(-7#-10_x) except "_"}each string urls),'{raze ("." vs x),".zip"}each string ndates;
+	names:hsym `$({"fxdata/",(-7#-10_x) except "_"}each string urls),'{raze ("." vs x),".zip"}each string ndates;
         .lg.o[`download;"Downloading files"];
   // Count number of rows in files table before download
 	scount:count filetab;
