@@ -14,10 +14,11 @@ export KDBAPPCONFIG=${TORQHOME}/appconfig
 export KDBHDB=${TORQHOME}/fxhdb
 #set KDBBASEPORT to the default value for a TorQ Installation
 export KDBBASEPORT=6000
-#Create fxhdb, fxdata and proczip dirctories
+#Create fxhdb, fxdata, proczip and csv dirctories
 mkdir -p ${KDBHDB}
 mkdir -p fxdata
 mkdir -p proczip
+mkdir -p csv
 # if using the email facility, modify the library path for the email lib depending on OS
 # e.g. linux:
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$KDBLIB/l[32|64]
