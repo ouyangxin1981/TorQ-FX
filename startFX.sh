@@ -1,5 +1,4 @@
 . ./setenv.sh
-export KDBHDB=${TORQHOME}/fxhdb
 export KDBSTACKID="-stackid ${KDBBASEPORT}"
 
 if [ $# -gt 0 ]; then
