@@ -1,4 +1,4 @@
-unzipFile:{[path;file]
+unzipfile:{[path;file]
         `:test.dat set path, "   ", file;
         //unzip file into csv directory
         system "unzip -oj ", path, file, " -d ", path,"../csv";
@@ -7,7 +7,7 @@ unzipFile:{[path;file]
         }
 
 loadfxdata:{[path;file]
-        unzipFile[path;file];
+        unzipfile[path;file];
 
         //set path and file to be relevant to the csv file
         path:path,"../csv";
