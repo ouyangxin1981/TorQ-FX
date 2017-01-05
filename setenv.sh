@@ -6,6 +6,7 @@ export KDBCODE=${TORQHOME}/code
 export KDBLOG=${TORQHOME}/logs
 export KDBHTML=${TORQHOME}/html
 export KDBLIB=${TORQHOME}/lib
+export KDBSTACKID="-stackid ${KDBBASEPORT}"
 
 #Sets the application specific configuration directory
 export KDBAPPCONFIG=${TORQHOME}/appconfig
