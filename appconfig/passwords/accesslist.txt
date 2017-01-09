@@ -12,4 +12,5 @@ tickerplant:pass
 wdb:pass
 chainedtp:pass
 sortslave:pass
+filealerter:pass
 admin:admin
