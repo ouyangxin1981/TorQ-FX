@@ -10,10 +10,10 @@ emailaddresses:@[value;`emailaddresses;"test@aquaq.co.uk"]	// Email addresses to
 
 // Check kdb version is recent enough to use .Q.hg
 $[.z.K<3.4;[.lg.e[`version;"Need version 3.4, 2016.05.12 or later"];exit 1];
-	.z.k>2016.05.12;();[.lg.e[`version;"Need version 3.4, 2016.05.12 or later"];exit 1]]
+	.z.k>=2016.05.12;();[.lg.e[`version;"Need version 3.4, 2016.05.12 or later"];exit 1]]
 
 // Check if files table exists, if not create
-$[0=count key files;[files set ([]names:();urls:();size:();downloadtime:());filetab:get files;];filetab:get files]
+$[0=count key files;[files set ([]names:();urls:();currencypair:();startdate:();size:();downloadtime:());filetab:get files;];filetab:get files]
 
 // Function for downloading zip files for specified date range and currencypairs
 download:{[startdate;enddate;currencypairs]
@@ -38,7 +38,7 @@ download:{[startdate;enddate;currencypairs]
                 raze (string y;first string 1+(`dd$x) div 7;".zip"))}'[;cpairs]each dates;
 	ndates:asc (count urls)#dates;
   // Generate the names each file will be saved as      
-	names:hsym `$({"fxdata/",(-7#-10_x) except "_"}each string urls),'{raze ("." vs x),".zip"}each string ndates;
+	names:hsym `$({getenv[`KDBZIP],"/",(-7#-10_x) except "_"}each string urls),'{raze ("." vs x),".zip"}each string ndates;
         .lg.o[`download;"Downloading files"];
   // Count number of rows in files table before download
 	scount:count filetab;
@@ -47,15 +47,16 @@ download:{[startdate;enddate;currencypairs]
                 [.lg.o[`download;"Downloading ",1_string x];
 			.[{x 1:.Q.hg y};(x;y);{[y;e].lg.e[`download;"Download failed for file ",string[y],": ",e];'}[y]];
 			$[0=count key x;.lg.e[`download;1_(string x)," failed to download"];
-				2000<hcount x;[`filetab upsert (x;y;hcount x;.proc.cp[]);.lg.o[`download;1_(string x)," downloaded successfully"]];
+				2000<hcount x;[`filetab upsert (x;y;6#-18#string x;8#-12#string x;hcount x;.proc.cp[]);.lg.o[`download;1_(string x)," downloaded successfully"]];
 					[hdel x;.lg.o[`download;1_(string x)," is empty, file deleted"]]]];
 			.lg.o[`download;1_(string x)," has already been downloaded"]]}'[names;hsym urls];
   // Count the number of rows in the file table after download	
 	ecount:count filetab;
         .lg.o[`download;"Finished downloading"];
   // Check if new files have been downloaded, if there are new files, send an email to a list of users 
-	if[1b=emailsenabled;$[ecount>scount;[newfiles::(neg ecount-scount)#filetab[`names];
-		// .email.senddefault[`to`subject`body!(`$emailaddresses;"New FX files available";("The following files are now available:";string newfiles))]
+	if[1b=emailsenabled;$[ecount>scount;[newfiles::(neg ecount-scount)#filetab;
+		.email.senddefault[`to`subject`body!(`$emailaddresses;"New FX files available";
+		("Data for the following is now avaialble:";", " sv {x," for week beginning ",string "D"$y}'[exec currencypair from newfiles;exec startdate from newfiles]))]
 		];]];
   // Write the updates to the filetab table to disk
 	files upsert (neg ecount-scount)#filetab;
@@ -66,4 +67,4 @@ download:{[startdate;enddate;currencypairs]
 if[1b=initialrun;download[initialrunstart;.z.d;`ALL]]
 
 // Run the download function with the current date at a specified time each day
-.timer.rep[.proc.cd[]+runtime;0W;1D;(`download;.proc.cd[]-7;.proc.cd[];`ALL);0h;"Download function";0b]
+.timer.rep[.proc.cd[]+runtime;0W;1D;(`download;.proc.cd[]-30;.proc.cd[];`ALL);0h;"Download function";0b]
