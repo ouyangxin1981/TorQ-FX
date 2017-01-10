@@ -22,7 +22,7 @@ export KDBCSV=${TORQHOME}/csv
 export KDBBASEPORT=6000
 #Create fxhdb, fxdata, proczip and csv dirctories
 mkdir -p ${KDBHDB}
-mkdir -p ${KDBHDB}
+mkdir -p ${KDBZIP}
 mkdir -p ${PROCZIP}
 mkdir -p ${KDBCSV}
 # if using the email facility, modify the library path for the email lib depending on OS
