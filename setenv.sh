@@ -20,6 +20,11 @@ export PROCZIP=${TORQHOME}/proczip
 export KDBCSV=${TORQHOME}/csv
 #set KDBBASEPORT to the default value for a TorQ Installation
 export KDBBASEPORT=6000
+#Create fxhdb, fxdata, proczip and csv dirctories
+mkdir -p ${KDBHDB}
+mkdir -p ${KDBHDB}
+mkdir -p ${PROCZIP}
+mkdir -p ${KDBCSV}
 # if using the email facility, modify the library path for the email lib depending on OS
 # e.g. linux:
 # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$KDBLIB/l[32|64]
