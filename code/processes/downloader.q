@@ -33,9 +33,10 @@ download:{[startdate;enddate;currencypairs]
         dates:sdate+7*til 1+`long$(edate-sdate)%7; 
   // Convert the currencypairs to the format needed in the URLs
 	cpairs:`${"_" sv (3#string x;3_string x;"Week")}each currencypairs;
-        urls:raze `${"/" sv ("http://ratedata.gaincapital.com";string `year$x;
+        urls:raze `${$[2007=`year$x;x:x+4;(`month$x) in (2006.10m;2006.11m);x;2009.04.01>x;x:x+3;x];
+		"/" sv ("http://ratedata.gaincapital.com";string `year$x;
                raze (1_string 100+`mm$x;"%20";("January";"February";"March";"April";"May";"June";"July";"August";"September";"October";"November";"December") -1+`mm$x);
-                raze (string y;first string 1+(`dd$x) div 7;".zip"))}'[;cpairs]each dates;
+                raze (string y;first string $[2009.04.01>x;1+(-1+`dd$x) div 7;1+(`dd$x) div 7];".zip"))}'[;cpairs]each dates;
 	ndates:asc (count urls)#dates;
   // Generate the names each file will be saved as      
 	names:hsym `$({getenv[`KDBZIP],"/",(-7#-10_x) except "_"}each string urls),'{raze ("." vs x),".zip"}each string ndates;
@@ -44,12 +45,12 @@ download:{[startdate;enddate;currencypairs]
 	scount:count filetab;
   // Download any available files not already downloaded in the date range      
 	{$[not x in filetab[`names];
-                [.lg.o[`download;"Downloading ",1_string x];
+                [.lg.o[`download;"Downloading ",1_string y];
 			.[{x 1:.Q.hg y};(x;y);{[y;e].lg.e[`download;"Download failed for file ",string[y],": ",e];'}[y]];
-			$[0=count key x;.lg.e[`download;1_(string x)," failed to download"];
-				2000<hcount x;[`filetab upsert (x;y;6#-18#string x;8#-12#string x;hcount x;.proc.cp[]);.lg.o[`download;1_(string x)," downloaded successfully"]];
-					[hdel x;.lg.o[`download;1_(string x)," is empty, file deleted"]]]];
-			.lg.o[`download;1_(string x)," has already been downloaded"]]}'[names;hsym urls];
+			$[0=count key x;.lg.e[`download;1_(string y)," failed to download"];
+				2000<hcount x;[`filetab upsert (x;y;6#-18#string x;8#-12#string x;hcount x;.proc.cp[]);.lg.o[`download;1_(string y)," downloaded successfully"]];
+					[hdel x;.lg.o[`download;1_(string y)," is empty, file deleted"]]]];
+			.lg.o[`download;1_(string y)," has already been downloaded"]]}'[names;hsym urls];
   // Count the number of rows in the file table after download	
 	ecount:count filetab;
         .lg.o[`download;"Finished downloading"];
