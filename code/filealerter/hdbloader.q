@@ -14,23 +14,20 @@ loadfxdata:{[path;file]
         path:getenv[`KDBCSV];
         file:f where (f:key (hsym `$path)) like "*.csv";
 	
-	//Get and check the file encoding. Ignore if utf.
+	//Get and check the file encoding. Convert toASCII if  utf.
 	enc:3#raze raze string system "file -i ",raze path,"/",(string file), "| cut -f 2 -d\";\" | cut -f 2 -d\"=\"";
-	$[enc ~ "utf";
-	.lg.o[`filealerter;"KDB can not read utf encoding. This file will not be loaded"];	
+	if[enc ~ "utf";
+	system "iconv -f UTF-16 -t ascii " ,raze path,"/",(string file),"> temp.tmp && mv temp.tmp " ,raze path,"/",(string file)];
 	
-        //if not utf, load csv file into on disk hdb
-        ($[date<=2008.01.19;
+	//If using old schema, add headers and rearrange columns to match current schema
+        if[date<=2008.01.19;
+	f 0:.h.tx[`csv;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols flip `lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable!("ISPFFS";",")0: f:hsym `$(raze path,"/",(string file))]];
 	
-	//if data before specified date above add header column to csv then load into on disk hdb
-	(system "sed -i 1i\"lTid,CurrencyPair,RateDateTime,RateBid,RateAsk,cDealable\" " ,raze path,"/",(string file);
-	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";enlist",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime); `$path]);
-	
-	//else load data into on disk hdb
-	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol!(`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk;"JCSPFF";enlist",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime); `$path]];
+	//Load csv files into hdb
+	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol!(`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk;"JCSPFF";enlist",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime); `$path];
 	
 	//Send reload message to each HDB process
-	{x"reload[]"} each exec w from .servers.getservers[`proctype;`hdb;()!();1b;0b])];
+	{x"reload[]"} each exec w from .servers.getservers[`proctype;`hdb;()!();1b;0b];
 
 	//Delete csv files
 	hdel hsym `$(raze path,"/",(string file));
