@@ -6,7 +6,6 @@ export KDBCODE=${TORQHOME}/code
 export KDBLOG=${TORQHOME}/logs
 export KDBHTML=${TORQHOME}/html
 export KDBLIB=${TORQHOME}/lib
-export KDBSTACKID="-stackid ${KDBBASEPORT}"
 
 #Sets the application specific configuration directory
 export KDBAPPCONFIG=${TORQHOME}/appconfig
@@ -20,6 +19,7 @@ export PROCZIP=${TORQHOME}/proczip
 export KDBCSV=${TORQHOME}/csv
 #set KDBBASEPORT to the default value for a TorQ Installation
 export KDBBASEPORT=6000
+export KDBSTACKID="-stackid ${KDBBASEPORT}"
 #Create fxhdb, fxdata, proczip and csv dirctories
 mkdir -p ${KDBHDB}
 mkdir -p ${KDBZIP}
