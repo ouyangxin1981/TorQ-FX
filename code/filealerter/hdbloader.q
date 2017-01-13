@@ -20,8 +20,8 @@ loadfxdata:{[path;file]
 	system "iconv -f UTF-16 -t ascii " ,raze path,"/",(string file),"> temp.tmp && mv temp.tmp " ,raze path,"/",(string file)];
 	
 	//If using old schema, add headers and rearrange columns to match current schema
-        if[date<=2008.01.19;
-	f 0:.h.tx[`csv;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols flip `lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable!("ISPFFS";",")0: f:hsym `$(raze path,"/",(string file))]];
+        if[date<=2009.11.21;
+	f 0:.h.tx[`csv;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols flip `lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable!("JSPFFC";",")0: f:hsym `$(raze path,"/",(string file))]];
 	
 	//Load csv files into hdb
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol!(`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk;"JCSPFF";enlist",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime); `$path];
