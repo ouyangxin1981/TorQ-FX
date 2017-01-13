@@ -13,4 +13,5 @@ wdb:pass
 chainedtp:pass
 sortslave:pass
 filealerter:pass
+downloader:pass
 admin:admin
