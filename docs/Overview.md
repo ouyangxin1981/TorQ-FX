@@ -2,14 +2,14 @@
 
 This system will automatically build and maintain an FX database using data downloaded from Gain Capital.
 
-A downloader process that can be set to run at particular times will download fx data from Gain Capital int he form of zip files to a set directory.  The filealerter process will be monitoring this directory and will then unzip the files and move the extrated csv files to another directory.  The zip files will be stored in another directory for historical use while the csv files will be loaded and stored in the on disk hdb.  A reload message will then be sent to each hdb process to load the new on disk data into the hdb processes.
+A downloader process that can be set to run at particular times will download fx data from Gain Capital in the form of zip files to a set directory.  The filealerter process will be monitoring this directory and will then unzip the files and move the extrated csv files to another directory.  The zip files will be stored in another directory for historical use while the csv files will be loaded and stored in the on disk hdb.  A reload message will then be sent to each hdb process to load the new on disk data into the hdb processes.
 
 This system will only run on Linux and kdb 3.4+.
 
 ##Processes#
 
 ####Downloader#
-The downloader process can be set to pull market data from the Gain Capital website down into a designated directory in the system (default is fxdata).
+The downloader process can be set to pull market data from the Gain Capital website down into a designated directory in the system (default is fxdata). Various settings can be set for the downloader; the time the downloader function runs each day; which currency pairs it should download by default; whether to download from a specified date on startup and whether to send emails when files have been successfully downloaded.
 
 ####Filealerter#
 This is a long running process periodically checking for the presence of new files in a set directory, with a default poll time of 10 seconds.  When it discovers new files it will unzip and load the data from the extracted csv file into the hdb sequentially for each new file.

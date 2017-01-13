@@ -33,10 +33,10 @@ download:{[startdate;enddate;currencypairs]
         dates:sdate+7*til 1+`long$(edate-sdate)%7; 
   // Convert the currencypairs to the format needed in the URLs
 	cpairs:`${"_" sv (3#string x;3_string x;"Week")}each currencypairs;
-        urls:raze `${$[2007=`year$x;x:x+4;(`month$x) in (2006.10m;2006.11m);x;2009.04.01>x;x:x+3;x];
+        urls:raze `${$[2007=`year$x;x:x+4;(`month$x) in (2006.10m;2006.11m);x;2009.05.01>x;x:x+3;x];
 		"/" sv ("http://ratedata.gaincapital.com";string `year$x;
                raze (1_string 100+`mm$x;"%20";("January";"February";"March";"April";"May";"June";"July";"August";"September";"October";"November";"December") -1+`mm$x);
-                raze (string y;first string $[2009.04.01>x;1+(-1+`dd$x) div 7;1+(`dd$x) div 7];".zip"))}'[;cpairs]each dates;
+                raze (string y;first string $[2009.05.01>x;1+(-1+`dd$x) div 7;1+(`dd$x) div 7];".zip"))}'[;cpairs]each dates;
 	ndates:asc (count urls)#dates;
   // Generate the names each file will be saved as      
 	names:hsym `$({getenv[`KDBZIP],"/",(-7#-10_x) except "_"}each string urls),'{raze ("." vs x),".zip"}each string ndates;
