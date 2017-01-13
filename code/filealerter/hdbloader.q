@@ -29,6 +29,9 @@ loadfxdata:{[path;file]
 	//Send reload message to each HDB process
 	{x"reload[]"} each exec w from .servers.getservers[`proctype;`hdb;()!();1b;0b];
 
+	if[`gainfx in f where (f:key (hsym `$p:"/home/squigley/fx/deploy/fxhdb")) like "gainfx";
+	system "rm -r ", getenv[`KDBHDB],"/","gainfx"];
+
 	//Delete csv files
 	hdel hsym `$(raze path,"/",(string file));
         }
