@@ -1,10 +1,6 @@
 ##Overview#
 
-This system will automatically build and maintain an FX database using data downloaded from Gain Capital.
-
-A downloader process that can be set to run at particular times will download fx data from Gain Capital in the form of zip files to a set directory.  The filealerter process will be monitoring this directory and will then unzip the files and move the extrated csv files to another directory.  The zip files will be stored in another directory for historical use while the csv files will be loaded and stored in the on disk hdb.  A reload message will then be sent to each hdb process to load the new on disk data into the hdb processes.
-
-This system will only run on Linux and kdb 3.4+.
+The processes that make up the TorQ-FX pack are described below; more information on the TorQ processes can be found in the [TorQ documentation](http://aquaqanalytics.github.io/TorQ/).
 
 ##Processes#
 
