@@ -384,9 +384,7 @@
                   <h1>About</h1>
                 
                 <h2 id="overview">Overview</h2>
-<p>This system will automatically build and maintain an FX database using data downloaded from Gain Capital.</p>
-<p>A downloader process that can be set to run at particular times will download fx data from Gain Capital in the form of zip files to a set directory.  The filealerter process will be monitoring this directory and will then unzip the files and move the extrated csv files to another directory.  The zip files will be stored in another directory for historical use while the csv files will be loaded and stored in the on disk hdb.  A reload message will then be sent to each hdb process to load the new on disk data into the hdb processes.</p>
-<p>This system will only run on Linux and kdb 3.4+.</p>
+<p>The processes that make up the TorQ-FX pack are described below; more information on the TorQ processes can be found in the <a href="http://aquaqanalytics.github.io/TorQ/">TorQ documentation</a>.</p>
 <h2 id="processes">Processes</h2>
 <h4 id="downloader">Downloader</h4>
 <p>The downloader process can be set to pull market data from the Gain Capital website down into a designated directory in the system (default is fxdata). Various settings can be set for the downloader; the time the downloader function runs each day; which currency pairs it should download by default; whether to download from a specified date on startup and whether to send emails when files have been successfully downloaded.</p>

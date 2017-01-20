@@ -200,6 +200,8 @@
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
+      
+    
     
       <label class="md-nav__link md-nav__link--active" for="toc">
         Getting Started
@@ -213,13 +215,43 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
+  
   
     <label class="md-nav__title" for="toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#requirements" title="Requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" title="Installation" class="md-nav__link">
     Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-the-pack" title="Starting the pack" class="md-nav__link">
+    Starting the pack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-to-a-running-process" title="Connecting to a running process" class="md-nav__link">
+    Connecting to a running process
   </a>
   
 </li>
@@ -245,13 +277,43 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
+  
   
     <label class="md-nav__title" for="toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#requirements" title="Requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" title="Installation" class="md-nav__link">
     Installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-the-pack" title="Starting the pack" class="md-nav__link">
+    Starting the pack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-to-a-running-process" title="Connecting to a running process" class="md-nav__link">
+    Connecting to a running process
   </a>
   
 </li>
@@ -271,19 +333,21 @@
                
               
                 
-                  <h1>Getting Started</h1>
-                
-                <h2 id="installation">Installation</h2>
+                <h1 id="getting-started">Getting started</h1>
+<h2 id="requirements">Requirements</h2>
+<p>The TorQ-FX pack currently runs on Linux only, and requires kdb+ version 3.4, release date 2016.05.12 or later.</p>
+<h2 id="installation">Installation</h2>
 <p>The system is based on TorQ, a framework for kdb+ and may be installed
 as follows:</p>
 <ol>
 <li>
-<p>Download the main TorQ code base from the AquaQ Analytics
-    github [https://github.com/AquaQAnalytics/TorQ.git].</p>
+<p>Download and install the latest version og kdb+ from <a href="http://kx.com">Kx systems</a> </p>
 </li>
 <li>
-<p>Download TorQ-FX code base from the AquaQ Analytics
-    github [https://github.com/AquaQAnalytics/TorQ-FX.git].</p>
+<p>Download the main TorQ code base from <a href="https://github.com/AquaQAnalytics/TorQ.git">here</a>.</p>
+</li>
+<li>
+<p>Download TorQ-FX code base from <a href="https://github.com/AquaQAnalytics/TorQ-FX.git">here</a>.</p>
 </li>
 <li>
 <p>Unzip the TorQ package into the desired location.</p>
@@ -292,10 +356,36 @@ as follows:</p>
 <p>Extract the TorQ-FX package over the top of the main TorQ
     package.</p>
 </li>
+</ol>
+<h2 id="configuration">Configuration</h2>
+<p>There are a number of settings that can be specified before the pack is started.
+The downloader process can be set to send emails when new files have been successfully downloaded. To enable this feature, email server details should be set in config/settings/default.q.
+The file appconfig/settings/downloader.q contains a number of other options for the downloader process:</p>
+<ol>
 <li>
-<p>Run the startFX.sh script eg. bash startFX.sh all</p>
+<p>The time that the downloader process will attempt to download files each day</p>
+</li>
+<li>
+<p>The list of currency pairs that will be downloaded by default</p>
+</li>
+<li>
+<p>Whether the download function should be run from a certain date on startup, and what this date should be</p>
 </li>
 </ol>
+<p>The environment variables for the pack are located in the setenv.sh script.</p>
+<h2 id="starting-the-pack">Starting the pack</h2>
+<p>Run the startFX.sh script to start the pack, eg
+bash startFX.sh all</p>
+<p>The pack can be stopped using the stopFX.sh script, eg
+bash stopFX.sh all</p>
+<h2 id="connecting-to-a-running-process">Connecting to a running process</h2>
+<p>The q processes the pack runs can be connected to as follows:</p>
+<ul>
+<li>Opening a connection from another q process using hopen</li>
+<li>qcon</li>
+<li>an IDE</li>
+</ul>
+<p>All processes are password protected, a list of usernames and passwords is in appconfig/passwords/accesslist.txt</p>
               
             </article>
           </div>
