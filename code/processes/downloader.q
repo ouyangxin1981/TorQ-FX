@@ -36,7 +36,7 @@ download:{[startdate;enddate;currencypairs]
   // Convert the currencypairs to the format needed in the URLs
 	cpairs:`${"_" sv (3#string x;3_string x)}each currencypairs;
   // Generate the urls
-        urls:raze `${$[2007=`year$x;x:x+4;(`month$x) in (2006.10m;2006.11m);x;2009.05.01>x;x:x+3;x];
+        urls:raze `${$[2007=`year$x;x:x+4;(`month$x) in (2006.10m;2006.11m);x;(`month$x) in (2004.06m;2004.07m;2003.12m;2004.01m);x:x+2;2009.05.01>x;x:x+3;x];
 		$[2003>`year$x;"http://ratedata.gaincapital.com/",(string `year$x),"/",(string y),"_",(string `year$x),".zip";
 		"/" sv ("http://ratedata.gaincapital.com";string `year$x;
                raze (1_string 100+`mm$x;"%20";("January";"February";"March";"April";"May";"June";"July";"August";"September";"October";"November";"December") -1+`mm$x);
