@@ -26,7 +26,7 @@ loadfxdata:{[path;file]
         $[date<=2009.11.21;
 
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol`dataprocessfunc!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime;
-	{[x;y]`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y; delete from y where RateDateTime = 0Nn}); `$path];	
+	{[x;y]delete from y where RateDateTime = 0Nn;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path];	
 
 	//Else load csv files into hdb with current schema
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol!(`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk;"JCSPFF";enlist",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime); `$path]];
