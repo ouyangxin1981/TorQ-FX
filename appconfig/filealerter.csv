@@ -1,2 +1,2 @@
 path,match,function,newonly,movetodirectory
-$TORQHOME/fxdata,*.zip,loadfxdata,0,
+$KDBZIP,*.zip,loadfxdata,0,

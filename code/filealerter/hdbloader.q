@@ -35,5 +35,5 @@ loadfxdata:{[path;file]
 	system "rm -r ",path;}[path;;date] each file;
 	
 	//Send reload message to each HDB process
-        {x"reload[]"} each exec neg w from .servers.getservers[`proctype;hdbtypes;()!();1b;0b];
+        {x"reload[]"} each exec neg w from .servers.getservers[`proctype;.fa.hdbtypes;()!();1b;0b];
         }
