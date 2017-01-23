@@ -4,6 +4,10 @@ The processes that make up the TorQ-FX pack are described below; more informatio
 
 ##Processes#
 
+The architecture of the system is shown in the diagram below.
+
+![FX architecture](graphics/TorQ-FX-Arch.png)
+
 ####Downloader#
 The downloader process can be set to pull market data from the Gain Capital website down into a designated directory in the system (default is fxdata). Various settings can be set for the downloader; the time the downloader function runs each day; which currency pairs it should download by default; whether to download from a specified date on startup and whether to send emails when files have been successfully downloaded.
 
