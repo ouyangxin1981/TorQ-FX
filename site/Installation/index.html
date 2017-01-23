@@ -256,6 +256,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#downloading-data" title="Downloading data" class="md-nav__link">
+    Downloading data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-the-hdb" title="Querying the HDB" class="md-nav__link">
+    Querying the HDB
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -318,6 +332,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#downloading-data" title="Downloading data" class="md-nav__link">
+    Downloading data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-the-hdb" title="Querying the HDB" class="md-nav__link">
+    Querying the HDB
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -337,11 +365,16 @@
 <h2 id="requirements">Requirements</h2>
 <p>The TorQ-FX pack currently runs on Linux only, and requires kdb+ version 3.4, release date 2016.05.12 or later.</p>
 <h2 id="installation">Installation</h2>
-<p>The system is based on TorQ, a framework for kdb+ and may be installed
-as follows:</p>
+<div style="width:640px; height:360px; margin: 0 auto;">
+<iframe src="https://player.vimeo.com/video/184552498" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div>
+
+<p></br></p>
+<p>The above video shows how to set up the TorQ Finance Starter Pack; the setup for the TorQ-FX pack is very similar.</p>
+<p>The system is built on TorQ, a framework for kdb+ and may be installed as follows:</p>
 <ol>
 <li>
-<p>Download and install the latest version og kdb+ from <a href="http://kx.com">Kx systems</a> </p>
+<p>Download and install the latest version of kdb+ from <a href="http://kx.com">Kx systems</a> </p>
 </li>
 <li>
 <p>Download the main TorQ code base from <a href="https://github.com/AquaQAnalytics/TorQ.git">here</a>.</p>
@@ -374,10 +407,18 @@ The file appconfig/settings/downloader.q contains a number of other options for 
 </ol>
 <p>The environment variables for the pack are located in the setenv.sh script.</p>
 <h2 id="starting-the-pack">Starting the pack</h2>
-<p>Run the startFX.sh script to start the pack, eg
-bash startFX.sh all</p>
-<p>The pack can be stopped using the stopFX.sh script, eg
-bash stopFX.sh all</p>
+<p>Run the startFX.sh script to start the pack, eg</p>
+<pre><code>    bash startFX.sh all
+</code></pre>
+<p>Individual processes are also started using this script, for example to start the downloader process, run</p>
+<pre><code>    bash startFX.sh downloader1
+</code></pre>
+<p>The pack can be stopped using the stopFX.sh script, eg</p>
+<pre><code>    bash stopFX.sh all
+</code></pre>
+<p>The stop script also allows processes to be stopped individually, for example to stop the downloader process, run</p>
+<pre><code>    bash stopFX.sh downloader1
+</code></pre>
 <h2 id="connecting-to-a-running-process">Connecting to a running process</h2>
 <p>The q processes the pack runs can be connected to as follows:</p>
 <ul>
@@ -386,6 +427,22 @@ bash stopFX.sh all</p>
 <li>an IDE</li>
 </ul>
 <p>All processes are password protected, a list of usernames and passwords is in appconfig/passwords/accesslist.txt</p>
+<h2 id="downloading-data">Downloading data</h2>
+<p>The downloader process can be set to run on startup, and will also run every day at a certain time. It can also be manually called by connecting to the downloader process and running the download function, which takes a start date, an end date and a list of currency pairs as symbols as parameters.
+For example, to download all data between 1st December 2016 and the current date for the currencypairs EUR/GBP, GBP/USD, EUR/USD, EUR/JPY, GBP/JPY and USD/JPY, run:</p>
+<pre><code>    download[2016.12.01;.z.d;`EURGBP`GBPUSD`EURUSD`EURJPY`GBPJPY`USDJPY]
+</code></pre>
+<p>The currency pairs parameter also takes `ALL as a parameter, which downloads data for all the currencypairs listed in the allcpairs parameter in appconfig/settings/downloader.q. For example, to get data for all currency pairs between 3rd September 2015 and 28th November 2016, run</p>
+<pre><code>    download[2015.09.03;2016.11.28;`ALL]
+</code></pre>
+<h2 id="querying-the-hdb">Querying the HDB</h2>
+<p>Queries can be run either directly against the HDB, or through the gateway.
+For example, when connected to one of the HDB processes:</p>
+<pre><code>   select high:max RateBid,low:min RateBid,open:first RateBid,close:last RateBid by CurrencyPair,date from gainfx where date within (2016.12.18;2016.12.23)
+</code></pre>
+<p>To run the same query through the gateway, run:</p>
+<pre><code>   .gw.syncexec["select high:max RateBid,low:min RateBid,open:first RateBid,close:last RateBid by CurrencyPair,date from gainfx where date within (2016.12.18;2016.12.23)";`hdb]
+</code></pre>
               
             </article>
           </div>
