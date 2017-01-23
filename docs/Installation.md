@@ -11,7 +11,7 @@ The TorQ-FX pack currently runs on Linux only, and requires kdb+ version 3.4, re
 The system is based on TorQ, a framework for kdb+ and may be installed
 as follows:
 
-1.  Download and install the latest version og kdb+ from [Kx systems](http://kx.com) 
+1.  Download and install the latest version of kdb+ from [Kx systems](http://kx.com) 
 
 2.  Download the main TorQ code base from [here](https://github.com/AquaQAnalytics/TorQ.git).
 
