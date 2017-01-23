@@ -26,14 +26,14 @@ loadfxdata:{[path;file]
         $[date<=2009.11.21;
 
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol`dataprocessfunc!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime;
-	{[x;y]delete from y where RateDateTime = 0Nn;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path];	
+	{[x;y]y:delete from y where RateDateTime = 0Np;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path];	
 
 	//Else load csv files into hdb with current schema
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol!(`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk;"JCSPFF";enlist",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime); `$path]];
 	
-	//Send reload message to each HDB process
-	{x"reload[]"} each exec w from .servers.getservers[`proctype;`hdb;()!();1b;0b];
-
 	//Delete csv files/paths
-	system "rm -r ",path;}[path;;date] each file
+	system "rm -r ",path;}[path;;date] each file;
+	
+	//Send reload message to each HDB process
+        {x"reload[]"} each exec neg w from .servers.getservers[`proctype;hdbtypes;()!();1b;0b];
         }
