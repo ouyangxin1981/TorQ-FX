@@ -1,7 +1,7 @@
 // Downloader process
 
 files:@[value;`files;`:files]					// Location of the table containing details of files already downloaded
-allcpairs:@[value;`allcpairs;`AUDCAD`AUDCHF`AUDJPY]		// List of currency pairs to download
+allcpairs:@[value;`allcpairs;`EURGBP`EURJPY`EURUSD`GBPJPY`GBPUSD`USDJPY]		// List of currency pairs to download
 runtime:@[value;`runtime;17:00:00]				// Time to run download function each day
 initialrun:@[value;`initialrun;0b]				// Whether to download all historical data on startup
 initialrunstart:@[value;`initialrunstart;2016.11.21]		// Date to start downloading from for intialrun
@@ -44,8 +44,8 @@ download:{[startdate;enddate;currencypairs]
 			$[2003.01m=`month$x;"";x within (2004.03.08;2004.03.26);"_Week2-4";2009.05.01>x;"_Week",first string 1+(-1+`dd$x) div 7;"_Week",first string 1+(`dd$x) div 7]
 				;".zip"))]}'[;cpairs]each dates;
 	ndates:asc (count urls)#dates;
-  // Generate the names each file will be saved as      
-	names:hsym `$({getenv[`KDBZIP],"/",(-7#-10_x) except "_"}each string urls),'{raze ("." vs x),".zip"}each string ndates;
+  // Generate the names each file will be saved as
+	names:hsym `$({getenv[`KDBZIP],"/",((7#last "/" vs x) except "_")}each string urls),'{raze ("." vs x),".zip"}each string ndates;
         .lg.o[`download;"Downloading files"];
   // Count number of rows in files table before download
 	scount:count filetab;
@@ -63,7 +63,8 @@ download:{[startdate;enddate;currencypairs]
   // Check if new files have been downloaded, if there are new files, send an email to a list of users 
 	if[1b=emailsenabled;$[ecount>scount;[newfiles::(neg ecount-scount)#filetab;
 		.email.senddefault[`to`subject`body!(`$emailaddresses;"New FX files available";
-		("Data for the following is now avaialble:";", " sv {x," for week beginning ",string "D"$y}'[exec currencypair from newfiles;exec startdate from newfiles]))]
+		("Data for the following is now avaialble:";"; " sv {(x," for weeks beginning ",y)}'[key exec startdate by currencypair from newfiles;
+			{", " sv x}each value exec startdate by currencypair from newfiles]))]
 		];]];
   // Write the updates to the filetab table to disk
 	files upsert (neg ecount-scount)#filetab;
