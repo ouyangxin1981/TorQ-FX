@@ -24,11 +24,13 @@ loadfxdata:{[path;file]
 
 	//If using old schema, rearrange columns to match current schema
         $[date<=2009.11.21;
-
+	
+	//If files have duplicate data throughout the month, delete the previous data except for the current week.
 	$[date within (2003.06.01;2009.11.21);
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol`dataprocessfunc!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime;
 	{[x;y]y:delete from y where RateDateTime = 0Np;y:delete from y where RateDateTime < last RateDateTime-5D; `lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path];
-
+	
+	//Else load csv files into hdb with old schema
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol`dataprocessfunc!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime;
         {[x;y]y:delete from y where RateDateTime = 0Np;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path]];	
 
