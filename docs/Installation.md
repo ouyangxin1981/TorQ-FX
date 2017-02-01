@@ -85,27 +85,27 @@ The currency pairs parameter also takes `ALL as a parameter, which downloads dat
 The data that is downloaded is pulled down in weeks (Sunday-Friday).  If you ask to download data where the start date or end date are in the middle of a week, the downloader will download data for the whole week that contains that date unless the entered date was a Saturday. If the start date was a Saturday then it will take next day (Sunday) as the start date.  If the end date was a Saturday then it will download up to the previous day (Friday). 
 For example the dates below will return data for 2017.01.01-2017.01.20.
 
-	 download[2017.01.04;2017.01.19;`ALL]
+        download[2017.01.04;2017.01.19;`ALL]
 
 When the download function is running you will be unable to connect to the downloader process.  If you wish to see what the downloader is doing you can tail the downloader log file as shown.  This can be useful if you wish to check if the download function is still running or if there is actually a problem connecting to the downloader process.
 
-	tail -f out_downloader1.log
+        tail -f out_downloader1.log
 
 ##Data Schema
 
 The data that is downloaded from Gain Capital is tick-by-tick FX data. Each tick message will show the top of book (best bid and best ask for a currency pair at that time.
 The schema for the downloaded data is as follows:
 
-meta gainfx
-c           | t f a
-------------| -----
-date        | d
-lTid        | j
-cDealable   | c
-CurrencyPair| s   p
-RateDateTime| p
-RateBid     | f
-RateAsk     | f
+        meta gainfx
+        c           | t f a
+        ------------| -----
+        date        | d
+        lTid        | j
+        cDealable   | c
+        CurrencyPair| s   p
+        RateDateTime| p
+        RateBid     | f
+        RateAsk     | f
 
 The date column is of type date and shows the trading date of the data.  
 The lTid column is of type long and is a unique identifier that allows for speration of messages that come in with teh same timestamp.  
