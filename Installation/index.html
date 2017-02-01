@@ -459,16 +459,18 @@ For example the dates below will return data for 2017.01.01-2017.01.20.</p>
 <h2 id="data-schema">Data Schema</h2>
 <p>The data that is downloaded from Gain Capital is tick-by-tick FX data. Each tick message will show the top of book (best bid and best ask for a currency pair at that time.
 The schema for the downloaded data is as follows:</p>
-<p>meta gainfx
-<code>c           | t f a</code>
-<code>------------| -----</code>
-<code>date        | d</code>
-<code>lTid        | j</code>
-<code>cDealable   | c</code>
-<code>CurrencyPair| s   p</code>
-<code>RateDateTime| p</code>
-<code>RateBid     | f</code>
-<code>RateAsk     | f</code></p>
+<pre><code>meta gainfx
+c           | t f a
+------------| -----
+date        | d
+lTid        | j
+cDealable   | c
+CurrencyPair| s   p
+RateDateTime| p
+RateBid     | f
+RateAsk     | f
+</code></pre>
+
 <p>The date column is of type date and shows the trading date of the data.<br />
 The lTid column is of type long and is a unique identifier that allows for speration of messages that come in with teh same timestamp.<br />
 The cDealable column is of type char and lets you know if a trade can take place ("D" means it can trade). Sometimes Gain Capital so not wish to trade around events such as major news announcements.
