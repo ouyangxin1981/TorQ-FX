@@ -264,6 +264,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#data-schema" title="Data Schema" class="md-nav__link">
+    Data Schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#querying-the-hdb" title="Querying the HDB" class="md-nav__link">
     Querying the HDB
   </a>
@@ -335,6 +342,13 @@
         <li class="md-nav__item">
   <a href="#downloading-data" title="Downloading data" class="md-nav__link">
     Downloading data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-schema" title="Data Schema" class="md-nav__link">
+    Data Schema
   </a>
   
 </li>
@@ -428,21 +442,49 @@ The file appconfig/settings/downloader.q contains a number of other options for 
 </ul>
 <p>All processes are password protected, a list of usernames and passwords is in appconfig/passwords/accesslist.txt</p>
 <h2 id="downloading-data">Downloading data</h2>
-<p>The downloader process can be set to run on startup, and will also run every day at a certain time. It can also be manually called by connecting to the downloader process and running the download function, which takes a start date, an end date and a list of currency pairs as symbols as parameters.
+<p>The downloader process can be set to run on startup, and will run every day at a certain time. It can also be manually called by connecting to the downloader process and running the download function, which takes a start date, an end date and a list of currency pairs as symbols as parameters.
 For example, to download all data between 1st December 2016 and the current date for the currencypairs EUR/GBP, GBP/USD, EUR/USD, EUR/JPY, GBP/JPY and USD/JPY, run:</p>
 <pre><code>    download[2016.12.01;.z.d;`EURGBP`GBPUSD`EURUSD`EURJPY`GBPJPY`USDJPY]
 </code></pre>
-<p>The currency pairs parameter also takes `ALL as a parameter, which downloads data for all the currencypairs listed in the allcpairs parameter in appconfig/settings/downloader.q. For example, to get data for all currency pairs between 3rd September 2015 and 28th November 2016, run</p>
+<p>The currency pairs parameter also takes `ALL as a parameter, which downloads data for all the currencypairs listed in the allcpairs parameter in appconfig/settings/downloader.q. For example, to get data for all currency pairs between 3rd September 2015 and 28th November 2016, run:</p>
 <pre><code>    download[2015.09.03;2016.11.28;`ALL]
 </code></pre>
+<p>The data that is downloaded is pulled down in weeks (Sunday-Friday).  If you ask to download data where the start date or end date are in the middle of a week, the downloader will download data for the whole week that contains that date unless the entered date was a Saturday. If the start date was a Saturday then it will take next day (Sunday) as the start date.  If the end date was a Saturday then it will download up to the previous day (Friday). 
+For example the dates below will return data for 2017.01.01-2017.01.20.</p>
+<pre><code> download[2017.01.04;2017.01.19;`ALL]
+</code></pre>
+<p>When the download function is running you will be unable to connect to the downloader process.  If you wish to see what the downloader is doing you can tail the downloader log file as shown.  This can be useful if you wish to check if the download function is still running or if there is actually a problem connecting to the downloader process.</p>
+<pre><code>tail -f out_downloader1.log
+</code></pre>
+<h2 id="data-schema">Data Schema</h2>
+<p>The data that is downloaded from Gain Capital is tick-by-tick FX data. Each tick message will show the top of book (best bid and best ask for a currency pair at that time.
+The schema for the downloaded data is as follows:</p>
+<p>meta gainfx
+c           | t f a
+------------| -----
+date        | d
+lTid        | j
+cDealable   | c
+CurrencyPair| s   p
+RateDateTime| p
+RateBid     | f
+RateAsk     | f</p>
+<p>The date column is of type date and shows the trading date of the data.<br />
+The lTid column is of type long and is a unique identifier that allows for speration of messages that come in with teh same timestamp.<br />
+The cDealable column is of type char and lets you know if a trade can take place ("D" means it can trade). Sometimes Gain Capital so not wish to trade around events such as major news announcements.
+The CurrencyPair column is of type sym and has a p attribute applied to it.  This column tells what currencies are being traded.
+The RateDateTime column is of type timestamp and shows the date and time of tick message with precision to nano-seconds.
+The RateBid column is of type float and shows the best bid at this time in the market.
+The RateAsk column is of type float and shows the best ask at this time in the market.</p>
 <h2 id="querying-the-hdb">Querying the HDB</h2>
-<p>Queries can be run either directly against the HDB, or through the gateway.
+<p>Queries can be run either directly against the HDB, or through the gateway. 
 For example, when connected to one of the HDB processes:</p>
 <pre><code>   select high:max RateBid,low:min RateBid,open:first RateBid,close:last RateBid by CurrencyPair,date from gainfx where date within (2016.12.18;2016.12.23)
 </code></pre>
 <p>To run the same query through the gateway, run:</p>
 <pre><code>   .gw.syncexec["select high:max RateBid,low:min RateBid,open:first RateBid,close:last RateBid by CurrencyPair,date from gainfx where date within (2016.12.18;2016.12.23)";`hdb]
 </code></pre>
+<p>The suggested approach would be to use the gateway for querying.  As there are three hdb processes, the gateway will perform load balancing when a query is sent through. This allows clients to retrieve data faster than they would if they all were directly querying the same hdb process.</p>
               
             </article>
           </div>
