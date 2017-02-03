@@ -32,11 +32,12 @@ download:{[startdate;enddate;currencypairs]
   // Dates will be a list of Monday's in the daterange
   // For 2002 and before, there is one zip file for the whole year. For January 2003, there is 1 zip file for the month. All other dates should have one zip file per week 
         dates:sdate+7*til 1+`long$(edate-sdate)%7;
+	dates[where dates in (2004.03.15;2004.03.22)]:2004.03.08;
 	dates:distinct {$[2003>`year$x;x:"D"$(string `year$x),".01.01";2003.01m=`month$x;x:2003.01.01;x]}each dates; 
   // Convert the currencypairs to the format needed in the URLs
 	cpairs:`${"_" sv (3#string x;3_string x)}each currencypairs;
   // Generate the urls
-        urls:raze `${$[2007=`year$x;x:x+4;(`month$x) in (2006.10m;2006.11m);x;(`month$x) in (2004.06m;2004.07m;2003.12m;2004.01m);x:x+2;2009.05.01>x;x:x+3;x];
+        urls:raze `${$[2007=`year$x;x:x+4;x within (2005.04.04;2005.04.25);x:x+4;(`month$x) in (2006.10m;2006.11m);x;(`month$x) in (2004.06m;2004.07m;2003.12m;2004.01m);x:x+2;2009.05.01>x;x:x+3;x];
 		$[2003>`year$x;"http://ratedata.gaincapital.com/",(string `year$x),"/",(string y),"_",(string `year$x),".zip";
 		"/" sv ("http://ratedata.gaincapital.com";string `year$x;
                raze (1_string 100+`mm$x;"%20";("January";"February";"March";"April";"May";"June";"July";"August";"September";"October";"November";"December") -1+`mm$x);

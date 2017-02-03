@@ -8,7 +8,8 @@ unzipfile:{[path;file]
         }
 
 loadfxdata:{[path;file]
-        date:"D"$-4_6_file;
+        date::"D"$-4_6_file;
+	cpair::`$(3#file),"/",-3#6#file;
 	
 	//unzip file and pass path back
 	path:unzipfile[path;file];
@@ -26,9 +27,12 @@ loadfxdata:{[path;file]
         $[date<=2009.11.21;
 	
 	//If files have duplicate data throughout the month, delete the previous data except for the current week.
-	$[date within (2003.06.01;2009.11.21);
+	$[date=2004.03.08;
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol`dataprocessfunc!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime;
-	{[x;y]y:delete from y where RateDateTime = 0Np;y:delete from y where RateDateTime < last RateDateTime-5D; `lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path];
+        {[x;y]y:delete from y where RateDateTime = 0Np;`lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path];
+	date within (2003.06.01;2009.11.21);
+	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol`dataprocessfunc!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime;
+	{[x;y]y:delete from y where RateDateTime = 0Np;y:delete from y where not RateDateTime within (date-1D;date+5D);y:delete from y where not CurrencyPair=cpair; `lTid`cDealable`CurrencyPair`RateDateTime`RateBid`RateAsk xcols y}); `$path];
 	
 	//Else load csv files into hdb with old schema
 	.loader.loadallfiles[`headers`types`separator`tablename`dbdir`partitioncol`dataprocessfunc!(`lTid`CurrencyPair`RateDateTime`RateBid`RateAsk`cDealable;"JSPFFC";",";`gainfx;`$":",getenv[`KDBHDB];`RateDateTime;
