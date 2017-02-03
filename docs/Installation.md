@@ -32,7 +32,8 @@ The system is built on TorQ, a framework for kdb+ and may be installed as follow
 ##Configuration
 
 There are a number of settings that can be specified before the pack is started.
-The downloader process can be set to send emails when new files have been successfully downloaded. To enable this feature, email server details should be set in config/settings/default.q.
+The downloader process can be set to send emails when new files have been successfully downloaded. To enable this feature, email server details should be set in config/settings/default.q. The relevant settings are those in the .email namespace, descriptions of what each of these do are given in the file. To enable emails, the .email.enabled variable in config/settings/default.q, and the emailsenabled variable in appconfig/settings/downloader.q should be set to 1b. 
+
 The file appconfig/settings/downloader.q contains a number of other options for the downloader process:
 
 1. The time that the downloader process will attempt to download files each day
@@ -40,6 +41,9 @@ The file appconfig/settings/downloader.q contains a number of other options for 
 2. The list of currency pairs that will be downloaded by default
 
 3. Whether the download function should be run from a certain date on startup, and what this date should be
+
+The default settings are for the download function are EUR/GBP, GBP/USD, EUR/USD, EUR/JPY, GBP/JPY and USD/JPY as the currency pairs to download, and the start date for the intial run to be 2017.01.01.
+Note that there are currently 79 currency pairs available to download; the HDB for all currency pairs for one week is about 670MB. The gainfx table for all of these currency pairs for one day will be about 3500000 rows.  The full database from 2000 to the end of January 2017 is approximately 170GB.
 
 The environment variables for the pack are located in the setenv.sh script.
 
@@ -89,7 +93,7 @@ For example the dates below will return data for 2017.01.01-2017.01.20.
 
 When the download function is running you will be unable to connect to the downloader process.  If you wish to see what the downloader is doing you can tail the downloader log file as shown.  This can be useful if you wish to check if the download function is still running or if there is actually a problem connecting to the downloader process.
 
-        tail -f out_downloader1.log
+        tail -f logs/out_downloader1.log
 
 ##Data Schema
 
