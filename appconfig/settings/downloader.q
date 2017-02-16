@@ -16,7 +16,7 @@ runtime:19:00:00		//Time for the automatic download each day
 //Whether to download from a certain date on startup. Data is available from 2000.05.30 onwards.
 //The first files downloaded will be those containing the data for the initialrunstart.
 //From February 2003 onwards, this will be the first week to get data from. Before this there is one zip file per currency pair per year
-initialrun:0b
+initialrun:1b
 //First available date is 2000.05.30
 initialrunstart:2017.01.01
 

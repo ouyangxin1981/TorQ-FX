@@ -2,9 +2,9 @@
 
 files:@[value;`files;`:files]					// Location of the table containing details of files already downloaded
 allcpairs:@[value;`allcpairs;`EURGBP`EURJPY`EURUSD`GBPJPY`GBPUSD`USDJPY]		// List of currency pairs to download
-runtime:@[value;`runtime;17:00:00]				// Time to run download function each day
-initialrun:@[value;`initialrun;0b]				// Whether to download all historical data on startup
-initialrunstart:@[value;`initialrunstart;2016.11.21]		// Date to start downloading from for intialrun
+runtime:@[value;`runtime;19:00:00]				// Time to run download function each day
+initialrun:@[value;`initialrun;1b]				// Whether to download all historical data on startup
+initialrunstart:@[value;`initialrunstart;2017.01.01]		// Date to start downloading from for intialrun
 emailsenabled:@[value;`emailsenabled;0b]			// Whether to send emails when new files are available
 emailaddresses:@[value;`emailaddresses;"test@aquaq.co.uk"]	// Email addresses to send a emails to
 
