@@ -115,7 +115,7 @@ The date column is of type date and shows the trading date of the data.
 The lTid column is of type long and is a unique identifier that allows for speration of messages that come in with teh same timestamp.  
 The cDealable column is of type char and lets you know if a trade can take place ("D" means it can trade). Sometimes Gain Capital so not wish to trade around events such as major news announcements.
 The CurrencyPair column is of type sym and has a p attribute applied to it.  This column tells what currencies are being traded.
-The RateDateTime column is of type timestamp and shows the date and time of the tick messages.
+The RateDateTime column is of type timestamp and shows the date and time of the tick message.
 The RateBid column is of type float and shows the best bid at this time in the market.
 The RateAsk column is of type float and shows the best ask at this time in the market.
 
