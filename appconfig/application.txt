@@ -1,2 +1,2 @@
 
-TorQ-FX Pack v 1.0.0
+TorQ-FX Pack v 1.1.0

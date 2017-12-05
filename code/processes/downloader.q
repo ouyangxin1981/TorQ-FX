@@ -8,10 +8,6 @@ initialrunstart:@[value;`initialrunstart;2017.01.01]		// Date to start downloadi
 emailsenabled:@[value;`emailsenabled;0b]			// Whether to send emails when new files are available
 emailaddresses:@[value;`emailaddresses;"test@aquaq.co.uk"]	// Email addresses to send a emails to
 
-// Check kdb version is recent enough to use .Q.hg
-$[.z.K<3.4;[.lg.e[`version;"Need version 3.4, 2016.05.12 or later"];exit 1];
-	.z.k>=2016.05.12;();[.lg.e[`version;"Need version 3.4, 2016.05.12 or later"];exit 1]]
-
 // Check if files table exists, if not create
 $[0=count key files;[files set ([]names:();urls:();currencypair:();startdate:();size:();downloadtime:());filetab:get files;];filetab:get files]
 
